@@ -14,14 +14,14 @@ const Navbar = () => {
       <Link href="/">
         <div
           className="text-lg md:text-2xl m-4 font-bold text-center bg-clip-text text-transparent
-          bg-gradient-to-b from-neutral-900 to-neutral-600 dark:from-neutral-50 dark:to-neutral-400 bg-opacity-50"
+          bg-linear-to-b from-neutral-900 to-neutral-600 dark:from-neutral-50 dark:to-neutral-400 bg-opacity-50"
         >
           Test.ai
         </div>
       </Link>
       <div className="flex space-x-4 items-center">
         <Button>
-          <a href="https://github.com/ANISH-SR/test.ai" target="_blank">Github</a>
+          <a href="https://github.com/sranish/test-ai" target="_blank">Github</a>
         </Button>
         <ModeToggle />
         {session ? (

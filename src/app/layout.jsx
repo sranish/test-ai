@@ -26,8 +26,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} font-sans dark:bg-black`}
       >
         <Analytics />
@@ -36,7 +37,7 @@ export default function RootLayout({ children }) {
           <header className="flex-none w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Navbar />
           </header>
-          <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 dark:bg-black h-screen font-sans">
+          <main className="grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 dark:bg-black h-screen font-sans">
             {children}
           </main>
           {/* <footer className="bottom left-0 w-full"> */}

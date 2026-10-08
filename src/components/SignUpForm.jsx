@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { Dropdown } from "./ui/Dropdown";
@@ -36,24 +37,37 @@ export function SignupForm() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = Array.isArray(data.message)
-          ? data.message.join(", ")
-          : "Signup failed";
-        throw new Error(errorMessage);
+      let response;
+      try {
+        response = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+      } catch {
+        throw new Error("Couldn't reach the server. Check your connection and try again.");
       }
 
-      router.push("/dashboard");
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        if (response.status === 409) {
+          throw new Error("An account with this email already exists. Try signing in instead.");
+        }
+        if (response.status === 400 && data.message) {
+          throw new Error([].concat(data.message).join(". ") + ".");
+        }
+        throw new Error("We couldn't create your account right now. Please try again in a moment.");
+      }
+
+      const result = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+      router.push(result?.error ? "/signin" : "/dashboard");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -129,7 +143,7 @@ export function SignupForm() {
         {error && <p className="text-red-500 m-2">{error}</p>}
 
         <button
-          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          className="bg-linear-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--color-zinc-800)_inset,0px_-1px_0px_0px_var(--color-zinc-800)_inset]"
           type="submit"
           disabled={loading}
         >

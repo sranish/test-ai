@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { getTestResult } from "@/actions/testActions";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 
-const TestResultPage = ({ params }) => {
+const TestResultPage = () => {
+  const params = useParams();
   const { data: session, status } = useSession();
   const router = useRouter();
   const [result, setResult] = useState(null);

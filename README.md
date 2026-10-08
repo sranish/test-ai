@@ -1,5 +1,7 @@
 # test.ai - Personalized Test & Feedback Platform
 
+Built by **Anish Rawat** · [GitHub](https://github.com/sranish)
+
 Welcome to **test.ai**, your go-to platform for personalized knowledge testing, gamified learning, and real-time performance insights. With **test.ai**, you're not just taking a test—you’re embarking on a dynamic learning journey that grows with you. Whether you’re brushing up on topics for school, prepping for a certification, or just curious to challenge your knowledge, **test.ai** has it all!
 
 ## 🚀 Key Features
@@ -52,7 +54,7 @@ Welcome to **test.ai**, your go-to platform for personalized knowledge testing, 
 ## 🛠️ Tech Stack
 
 - **Framework**: Next.js for seamless SSR and client-side transitions.
-- **Backend API**: Gemini API for quiz data and real-time results.
+- **AI**: OpenAI API for quiz generation and result analysis.
 - **Database**: MongoDB for robust, scalable data management.
 - **Styling**: Tailwind CSS for a modern, responsive, and clean UI.
 - **State Management**: Redux/Context API for smooth handling of global state.
@@ -74,8 +76,8 @@ Ensure you have the following to run **test.ai** locally:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/ANISH-SR/test.ai
-   cd test.ai
+   git clone https://github.com/sranish/test-ai
+   cd test-ai
    ```
 
 2. Install the dependencies:
@@ -87,18 +89,24 @@ Ensure you have the following to run **test.ai** locally:
 3. Set up environment variables by creating a `.env.local` file and adding:
 
    ```env
-   GEMINI_API_KEY=your-gemini-api-key
+   OPENAI_API_KEY=your-openai-api-key
    MONGODB_URI=your-mongodb-uri
-   JWT_SECRET=your-secret-key
+   NEXTAUTH_SECRET=your-secret-key
    ```
 
-4. Run the development server:
+4. (Optional) Create the demo account (`demo@gmail.com` / `demo1234`):
+
+   ```bash
+   npm run seed:demo
+   ```
+
+5. Run the development server:
 
    ```bash
    npm run dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action!
+6. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action!
 
 ---
 
@@ -152,3 +160,9 @@ At **test.ai**, we are always innovating. Found a bug? Got a cool idea for a new
 ---
 
 Thank you for being a part of **test.ai**—where learning meets fun, progress is tracked, and growth never stops. Let's level up your knowledge today!
+
+---
+
+## 👤 Author
+
+**Anish Rawat** — [@sranish](https://github.com/sranish)

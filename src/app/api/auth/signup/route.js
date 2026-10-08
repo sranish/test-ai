@@ -5,6 +5,15 @@ import dbConnect from '@/lib/dbConnect';
 import { z } from 'zod';
 
 export async function POST(req) {
+  try {
+    return await signup(req);
+  } catch (error) {
+    console.error("Signup failed:", error);
+    return new Response(JSON.stringify({ message: "Something went wrong. Please try again." }), { status: 500 });
+  }
+}
+
+async function signup(req) {
   const { email, password, name, role } = await req.json();
 
   await dbConnect();

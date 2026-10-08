@@ -1,6 +1,6 @@
 "use server";
 
-import { generateQuestions } from "@/lib/gemini";
+import { generateQuestions } from "@/lib/ai";
 import Test from "@/models/Test";
 import User from "@/models/user.model";
 import dbConnect from "@/lib/dbConnect";

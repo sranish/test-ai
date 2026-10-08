@@ -1,6 +1,6 @@
 "use server";
 
-import { generateQuestions, verifyTestWithGemini } from "@/lib/gemini";
+import { generateQuestions, verifyTestWithAI } from "@/lib/ai";
 
 import Test from "@/models/Test";
 import TestResult from "@/models/TestResult";
@@ -58,23 +58,23 @@ export async function submitTest(testId, userAnswers, userId) {
       return { success: false, error: "Test not found" };
     }
 
-    console.log("Verifying test with Gemini...");
-    let geminiResult;
+    console.log("Verifying test with AI...");
+    let aiResult;
     try {
-      geminiResult = await verifyTestWithGemini(test, userAnswers);
+      aiResult = await verifyTestWithAI(test, userAnswers);
     } catch (error) {
-      console.error("Error verifying test with Gemini:", error);
-      return { success: false, error: "Failed to verify test results" };
+      console.error("Error verifying test with AI:", error);
+      return { success: false, error: "We couldn't grade your test right now. Please try again in a moment." };
     }
-    console.log("Gemini result:", geminiResult);
+    console.log("AI result:", aiResult);
 
     const questionsFormat = test.questions.map((question, index) => ({
       questionText: question.text,
       options: question.options,
       correctAnswer: question.correctAnswer,
       userAnswer: userAnswers[question._id],
-      isCorrect: geminiResult.questionResults[index].isCorrect,
-      explanation: geminiResult.questionResults[index].explanation,
+      isCorrect: aiResult.questionResults[index].isCorrect,
+      explanation: aiResult.questionResults[index].explanation,
     }));
     console.log(questionsFormat);
 
@@ -82,10 +82,10 @@ export async function submitTest(testId, userAnswers, userId) {
       userId: userId,
       testId: testId,
       difficulty: test.difficulty, // Include difficulty level
-      score: geminiResult.score,
-      correctAnswers: geminiResult.correctAnswers,
-      wrongAnswers: geminiResult.wrongAnswers,
-      analysis: geminiResult.analysis,
+      score: aiResult.score,
+      correctAnswers: aiResult.correctAnswers,
+      wrongAnswers: aiResult.wrongAnswers,
+      analysis: aiResult.analysis,
       questions: questionsFormat,
       userAnswers: userAnswers,
     });
@@ -98,7 +98,7 @@ export async function submitTest(testId, userAnswers, userId) {
     return { success: true, resultId: testResult._id.toString() };
   } catch (error) {
     console.error("Error submitting test:", error);
-    return { success: false, error: error.message || "Failed to submit test" };
+    return { success: false, error: "We couldn't submit your test. Please try again." };
   }
 }
 

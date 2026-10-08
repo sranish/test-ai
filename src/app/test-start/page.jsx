@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button";
 import { createTest } from "@/actions/testActions";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import loadingAnimation from '../../../public/loading2.json';
 import loadingAnimationDark from '../../../public/loading.json';
 
@@ -140,7 +141,7 @@ const TestStartPage = () => {
               name="difficulty"
               value={testDetails.difficulty}
               onChange={handleInputChange}
-              className="w-full mt-1 rounded-md border border-gray-300 dark:border-neutral-600 shadow-sm px-4 py-2 bg-white dark:bg-neutral-800 text-sm dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full mt-1 rounded-md border border-gray-300 dark:border-neutral-600 shadow-xs px-4 py-2 bg-white dark:bg-neutral-800 text-sm dark:text-white focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>

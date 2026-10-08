@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { getTestById, submitTest } from "@/actions/testActions";
 import TestQuestion from "@/components/TestQuestion";
 import CountdownTimer from "@/components/ui/CountdownTimer";
@@ -11,8 +11,8 @@ import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import { MultiStepLoader } from "@/components/ui/multi-step-loader"; // Import the loader
 
-export default function TestPage({ params }) {
-  const { testId } = params;
+export default function TestPage() {
+  const { testId } = useParams();
   const { data: session, status } = useSession();
   const router = useRouter();
   const [test, setTest] = useState(null);
